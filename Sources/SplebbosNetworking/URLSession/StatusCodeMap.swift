@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-extension URLSession {
+public extension URLSession {
   func handleStatusCode(_ output: DataTaskPublisher.Output) throws -> DataTaskPublisher.Output {
     guard let httpURLResponse = output.response as? HTTPURLResponse else {
       throw DataTaskError.invalidResponse(output.data, nil, output.response)

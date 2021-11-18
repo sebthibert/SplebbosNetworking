@@ -1,6 +1,6 @@
 import Foundation
 
-extension URLSession {
+public extension URLSession {
   enum DataTaskError: Error, Equatable {
     case invalidResponse(Data?, Int?, URLResponse)
 
