@@ -8,13 +8,13 @@ public extension URL {
   ///     - path: The path subcomponent.
   ///     - queryItems: The query items subcomponent
   ///     - percentEncodedQueryItems: The percent encoded query items subcomponent.
-  init?(
+  init(
     scheme: String,
     host: String,
     path: String,
     queryItems: [URLQueryItem]? = nil,
     percentEncodedQueryItems: [URLQueryItem]? = nil
-  ) {
+  ) throws {
     var components = URLComponents()
     components.scheme = scheme
     components.host = host
@@ -24,7 +24,7 @@ public extension URL {
     if let url = components.url {
       self = url
     } else {
-      return nil
+      throw URLSession.DataTaskError.invalidURL
     }
   }
 }
