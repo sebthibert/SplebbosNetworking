@@ -8,19 +8,13 @@ public extension URL {
   ///     - path: The path subcomponent.
   ///     - queryItems: The query items subcomponent
   ///     - percentEncodedQueryItems: The percent encoded query items subcomponent.
-  init(
-    scheme: String,
-    host: String,
-    path: String,
-    queryItems: [URLQueryItem]? = nil,
-    percentEncodedQueryItems: [URLQueryItem]? = nil
-  ) throws {
+  init(resource: Resource) throws {
     var components = URLComponents()
-    components.scheme = scheme
-    components.host = host
-    components.path = path
-    components.queryItems = queryItems
-    components.percentEncodedQueryItems = percentEncodedQueryItems
+    components.scheme = resource.scheme
+    components.host = resource.host
+    components.path = resource.path
+    components.queryItems = resource.queryItems
+    components.percentEncodedQueryItems = resource.percentEncodedQueryItems
     if let url = components.url {
       self = url
     } else {

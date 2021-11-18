@@ -17,7 +17,7 @@ final class DecodablePublisherTests: XCTestCase {
     let configuration = URLSessionConfiguration.ephemeral
     configuration.protocolClasses = [MockURLProtocol.self]
     let session = URLSession(configuration: configuration)
-    let publisher: AnyPublisher<StubCodable, Error> = session.decodablePublisher(for: try URLRequest.stub())
+    let publisher: AnyPublisher<StubCodable, Error> = session.decodablePublisher(for: Resource.stub())
     var publishedDecodable: StubCodable?
     publisher
       .sink(
@@ -45,7 +45,7 @@ final class DecodablePublisherTests: XCTestCase {
     let configuration = URLSessionConfiguration.ephemeral
     configuration.protocolClasses = [MockURLProtocol.self]
     let session = URLSession(configuration: configuration)
-    let publisher: AnyPublisher<StubCodable, Error> = session.decodablePublisher(for: try URLRequest.stub())
+    let publisher: AnyPublisher<StubCodable, Error> = session.decodablePublisher(for: Resource.stub())
     var publishedError: URLSession.DataTaskError?
     publisher
       .sink(

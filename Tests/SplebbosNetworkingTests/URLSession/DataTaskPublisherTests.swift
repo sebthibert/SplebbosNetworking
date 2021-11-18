@@ -16,7 +16,7 @@ final class DataTaskPublisherTests: XCTestCase {
     let configuration = URLSessionConfiguration.ephemeral
     configuration.protocolClasses = [MockURLProtocol.self]
     let session = URLSession(configuration: configuration)
-    let publisher: AnyPublisher<Data, Error> = session.dataTaskPublisher(for: try URLRequest.stub())
+    let publisher: AnyPublisher<Data, Error> = session.dataTaskPublisher(for: Resource.stub())
     var publishedData: Data?
     publisher
       .sink(
@@ -43,7 +43,7 @@ final class DataTaskPublisherTests: XCTestCase {
     let configuration = URLSessionConfiguration.ephemeral
     configuration.protocolClasses = [MockURLProtocol.self]
     let session = URLSession(configuration: configuration)
-    let publisher: AnyPublisher<Data, Error> = session.dataTaskPublisher(for: try URLRequest.stub())
+    let publisher: AnyPublisher<Data, Error> = session.dataTaskPublisher(for: Resource.stub())
     var publishedError: URLSession.DataTaskError?
     publisher
       .sink(
@@ -71,7 +71,7 @@ final class DataTaskPublisherTests: XCTestCase {
     let configuration = URLSessionConfiguration.ephemeral
     configuration.protocolClasses = [MockURLProtocol.self]
     let session = URLSession(configuration: configuration)
-    let publisher: AnyPublisher<Data, Error> = session.dataTaskPublisher(for: try URLRequest.stub())
+    let publisher: AnyPublisher<Data, Error> = session.dataTaskPublisher(for: Resource.stub())
     var publishedError: URLSession.DataTaskError?
     publisher
       .sink(
