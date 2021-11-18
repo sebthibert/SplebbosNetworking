@@ -15,10 +15,6 @@ public extension URL {
     components.path = resource.path
     components.queryItems = resource.queryItems
     components.percentEncodedQueryItems = resource.percentEncodedQueryItems
-    if let url = components.url {
-      self = url
-    } else {
-      throw URLSession.DataTaskError.invalidURL
-    }
+    self = try unwrap(optional: components.url, orThrow: URLSession.DataTaskError.invalidURL)
   }
 }
