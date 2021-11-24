@@ -10,14 +10,20 @@ let package = Package(
   products: [
     .library(
       name: "SplebbosNetworking",
-      targets: ["SplebbosNetworking"]),
+      targets: [
+        "SplebbosNetworking",
+        "SplebbosNetworkingMocks",
+      ]),
   ],
   targets: [
-    .target(
-      name: "SplebbosNetworking",
-      dependencies: []),
+    .target(name: "SplebbosNetworking"),
+    .target(name: "SplebbosNetworkingMocks"),
     .testTarget(
       name: "SplebbosNetworkingTests",
-      dependencies: ["SplebbosNetworking"]),
+      dependencies: [
+        "SplebbosNetworking",
+        "SplebbosNetworkingMocks",
+      ]
+    ),
   ]
 )

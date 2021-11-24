@@ -1,5 +1,6 @@
 import Combine
 @testable import SplebbosNetworking
+import SplebbosNetworkingMocks
 import XCTest
 
 final class DataTaskPublisherTests: XCTestCase {

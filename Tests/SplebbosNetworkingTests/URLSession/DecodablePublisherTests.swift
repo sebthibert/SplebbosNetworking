@@ -1,5 +1,6 @@
 import Combine
-@testable import SplebbosNetworking
+import SplebbosNetworking
+import SplebbosNetworkingMocks
 import XCTest
 
 final class DecodablePublisherTests: XCTestCase {
