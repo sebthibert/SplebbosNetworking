@@ -18,4 +18,14 @@ final class DataTaskErrorTests: XCTestCase {
     let error: URLSession.DataTaskError = .invalidResponse(nil, nil, response)
     XCTAssertEqual(error.response, response)
   }
+
+  func test_invalidURL_statusCode() {
+    let error: URLSession.DataTaskError = .invalidURL
+    XCTAssertNil(error.statusCode)
+  }
+
+  func test_invalidURL_response() {
+    let error: URLSession.DataTaskError = .invalidURL
+    XCTAssertNil(error.response)
+  }
 }

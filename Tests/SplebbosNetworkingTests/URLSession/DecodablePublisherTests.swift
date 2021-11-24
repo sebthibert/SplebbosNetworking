@@ -9,14 +9,9 @@ final class DecodablePublisherTests: XCTestCase {
     let expectation = XCTestExpectation(description: "Loading")
     let expectedDecodable = StubCodable()
     let expectedData = try JSONEncoder().encode(expectedDecodable)
-    MockURLProtocol.requestHandler = { request in
-      let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
-      return (response, expectedData, nil)
+    let session = URLSession.mock(data: expectedData) { request in
+      try HTTPURLResponse.mock(for: request.url, statusCode: 200)
     }
-
-    let configuration = URLSessionConfiguration.ephemeral
-    configuration.protocolClasses = [MockURLProtocol.self]
-    let session = URLSession(configuration: configuration)
     let publisher: AnyPublisher<StubCodable, Error> = session.decodablePublisher(for: Resource.stub)
     var publishedDecodable: StubCodable?
     publisher
@@ -33,25 +28,20 @@ final class DecodablePublisherTests: XCTestCase {
     XCTAssertEqual(publishedDecodable, expectedDecodable)
   }
 
-  func test_dataTaskPublisher_failsIfResponseIsNotHTTPURLResponse() throws {
+  func test_decodablePublisher_failsIfCannotDecode() throws {
     let expectation = XCTestExpectation(description: "Loading")
     let expectedDecodable = StubCodable()
     let expectedData = try JSONEncoder().encode(expectedDecodable)
-    MockURLProtocol.requestHandler = { request in
-      let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
-      return (response, expectedData, nil)
+    let session = URLSession.mock(data: expectedData) { request in
+      try HTTPURLResponse.mock(for: request.url, statusCode: 200)
     }
-
-    let configuration = URLSessionConfiguration.ephemeral
-    configuration.protocolClasses = [MockURLProtocol.self]
-    let session = URLSession(configuration: configuration)
-    let publisher: AnyPublisher<StubCodable, Error> = session.decodablePublisher(for: Resource.stub)
-    var publishedError: URLSession.DataTaskError?
+    let publisher: AnyPublisher<String, Error> = session.decodablePublisher(for: Resource.stub)
+    var publishedError: Error?
     publisher
       .sink(
         receiveCompletion: { completion in
           if case let .failure(error) = completion {
-            publishedError = error as? URLSession.DataTaskError
+            publishedError = error
           }
           expectation.fulfill()
         },
@@ -59,6 +49,6 @@ final class DecodablePublisherTests: XCTestCase {
       )
       .store(in: &cancellables)
     wait(for: [expectation], timeout: 1)
-    XCTAssertFalse(publishedError?.response is HTTPURLResponse)
+    XCTAssertTrue(publishedError is DecodingError)
   }
 }
