@@ -9,7 +9,7 @@ public final class MockURLProtocol: URLProtocol {
     return request
   }
 
-  static var requestHandler: ((URLRequest) throws -> (URLResponse, Data?, Error?))?
+  static var requestHandler: ((URLRequest) throws -> (URLResponse?, Data?, Error?))?
 
   public override func startLoading() {
     let handler = try? MockURLProtocol.requestHandler?(request)

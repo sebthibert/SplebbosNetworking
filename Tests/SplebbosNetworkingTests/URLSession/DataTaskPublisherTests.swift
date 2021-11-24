@@ -10,7 +10,7 @@ final class DataTaskPublisherTests: XCTestCase {
     let expectation = XCTestExpectation(description: "Loading")
     let expectedData = Data("Cheese".utf8)
     let session = URLSession.mock(data: expectedData) { request in
-      try HTTPURLResponse.mock(for: request.url, statusCode: 200)
+      HTTPURLResponse.mock(for: request.url, statusCode: 200)
     }
     let publisher: AnyPublisher<Data, Error> = session.dataTaskPublisher(for: Resource.stub)
     var publishedData: Data?
@@ -56,7 +56,7 @@ final class DataTaskPublisherTests: XCTestCase {
     let expectation = XCTestExpectation(description: "Loading")
     let expectedData = Data("Cheese".utf8)
     let session = URLSession.mock(data: expectedData) { request in
-      try HTTPURLResponse.mock(for: request.url, statusCode: 400)
+      HTTPURLResponse.mock(for: request.url, statusCode: 400)
     }
     let publisher: AnyPublisher<Data, Error> = session.dataTaskPublisher(for: Resource.stub)
     var publishedError: URLSession.DataTaskError?
@@ -79,7 +79,7 @@ final class DataTaskPublisherTests: XCTestCase {
     let expectation = XCTestExpectation(description: "Loading")
     let expectedData = Data("Cheese".utf8)
     let session = URLSession.mock(data: expectedData) { request in
-      try HTTPURLResponse.mock(for: request.url, statusCode: 200)
+      HTTPURLResponse.mock(for: request.url, statusCode: 200)
     }
     let resource = Resource(host: "invalid", path: "invalid")
     let publisher: AnyPublisher<Data, Error> = session.dataTaskPublisher(for: resource)

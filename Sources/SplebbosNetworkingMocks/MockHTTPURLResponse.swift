@@ -1,5 +1,4 @@
 import Foundation
-import XCTest
 
 public extension HTTPURLResponse {
   static func mock(
@@ -7,13 +6,18 @@ public extension HTTPURLResponse {
     statusCode: Int,
     httpVersion: String? = nil,
     headerFields: [String: String]? = nil
-  ) throws -> HTTPURLResponse {
-    let response = HTTPURLResponse(
-      url: try XCTUnwrap(url),
+  ) -> HTTPURLResponse? {
+    guard let url = url else {
+      return nil
+    }
+    guard let response = HTTPURLResponse(
+      url: url,
       statusCode: statusCode,
       httpVersion: httpVersion,
       headerFields: headerFields
-    )
-    return try XCTUnwrap(response)
+    ) else {
+      return nil
+    }
+    return response
   }
 }

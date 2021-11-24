@@ -11,7 +11,7 @@ final class DecodablePublisherTests: XCTestCase {
     let expectedDecodable = StubCodable()
     let expectedData = try JSONEncoder().encode(expectedDecodable)
     let session = URLSession.mock(data: expectedData) { request in
-      try HTTPURLResponse.mock(for: request.url, statusCode: 200)
+      HTTPURLResponse.mock(for: request.url, statusCode: 200)
     }
     let publisher: AnyPublisher<StubCodable, Error> = session.decodablePublisher(for: Resource.stub)
     var publishedDecodable: StubCodable?
@@ -34,7 +34,7 @@ final class DecodablePublisherTests: XCTestCase {
     let expectedDecodable = StubCodable()
     let expectedData = try JSONEncoder().encode(expectedDecodable)
     let session = URLSession.mock(data: expectedData) { request in
-      try HTTPURLResponse.mock(for: request.url, statusCode: 200)
+      HTTPURLResponse.mock(for: request.url, statusCode: 200)
     }
     let publisher: AnyPublisher<String, Error> = session.decodablePublisher(for: Resource.stub)
     var publishedError: Error?

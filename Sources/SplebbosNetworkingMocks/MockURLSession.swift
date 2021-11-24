@@ -4,10 +4,10 @@ public extension URLSession {
   static func mock(
     data: Data,
     error: Error? = nil,
-    response: @escaping (URLRequest) throws -> URLResponse
+    response: @escaping (URLRequest) -> URLResponse?
   ) -> URLSession {
     MockURLProtocol.requestHandler = { request in
-      (try response(request), data, error)
+      (response(request), data, error)
     }
     let configuration = URLSessionConfiguration.ephemeral
     configuration.protocolClasses = [MockURLProtocol.self]
