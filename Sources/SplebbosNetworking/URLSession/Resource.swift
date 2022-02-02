@@ -4,7 +4,6 @@ public struct Resource {
   public let scheme: String
   public let host: String
   public let path: String
-  public let queryItems: [URLQueryItem]?
   public let percentEncodedQueryItems: [URLQueryItem]?
   public let httpHeaderFields: [String: String]
   public let body: Data?
@@ -13,7 +12,6 @@ public struct Resource {
     scheme: String = "https",
     host: String,
     path: String,
-    queryItems: [URLQueryItem]? = nil,
     percentEncodedQueryItems: [URLQueryItem]? = nil,
     httpHeaderFields: [String: String] = [:],
     body: Data? = nil
@@ -21,7 +19,6 @@ public struct Resource {
     self.scheme = scheme
     self.host = host
     self.path = path
-    self.queryItems = queryItems
     self.percentEncodedQueryItems = percentEncodedQueryItems
     self.httpHeaderFields = httpHeaderFields
     self.body = body
