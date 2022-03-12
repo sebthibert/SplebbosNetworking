@@ -1,11 +1,11 @@
 import Foundation
 
 public struct Resource {
-  public let scheme: String
-  public let host: String
+  public let scheme: String?
+  public let host: String?
   public let path: String
   public let percentEncodedQueryItems: [URLQueryItem]?
-  public let httpHeaderFields: [String: String]
+  public let httpHeaderFields: [String: String]?
   public let body: Data?
 
   public init(
