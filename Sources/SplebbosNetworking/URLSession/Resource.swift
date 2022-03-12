@@ -9,11 +9,11 @@ public struct Resource {
   public let body: Data?
 
   public init(
-    scheme: String = "https",
-    host: String,
+    scheme: String? = "https",
+    host: String?,
     path: String,
     percentEncodedQueryItems: [URLQueryItem]? = nil,
-    httpHeaderFields: [String: String] = [:],
+    httpHeaderFields: [String: String]? = [:],
     body: Data? = nil
   ) {
     self.scheme = scheme
