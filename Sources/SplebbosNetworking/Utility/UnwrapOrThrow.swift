@@ -1,6 +1,6 @@
 import Foundation
 
-public func unwrap<T>(optional: T?, orThrow error: URLSession.DataTaskError) throws -> T {
+public func unwrap<T>(optional: T?, orThrow error: URLSession.Error) throws -> T {
   if let unwrapped = optional {
     return unwrapped
   } else {

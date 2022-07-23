@@ -1,10 +1,10 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.6
 import PackageDescription
 
 let package = Package(
   name: "SplebbosNetworking",
   platforms: [
-    .iOS(.v13),
+    .iOS(.v15),
     .macOS(.v10_15),
   ],
   products: [
