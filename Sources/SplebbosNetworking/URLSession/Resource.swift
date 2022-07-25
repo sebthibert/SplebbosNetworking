@@ -2,26 +2,26 @@ import Foundation
 
 public struct Resource {
   public let scheme: String?
+  public let httpMethod: HTTPMethod
   public let host: String?
   public let path: String
   public let percentEncodedQueryItems: [URLQueryItem]?
   public let httpHeaderFields: [String: String]?
-  public let body: Data?
 
   public init(
     scheme: String? = "https",
+    httpMethod: HTTPMethod = .get,
     host: String?,
-    path: String,
+    path: String = "/",
     percentEncodedQueryItems: [URLQueryItem]? = nil,
-    httpHeaderFields: [String: String]? = [:],
-    body: Data? = nil
+    httpHeaderFields: [String: String]? = [:]
   ) {
     self.scheme = scheme
+    self.httpMethod = httpMethod
     self.host = host
     self.path = path
     self.percentEncodedQueryItems = percentEncodedQueryItems
     self.httpHeaderFields = httpHeaderFields
-    self.body = body
   }
 
   public func url() throws -> URL {
