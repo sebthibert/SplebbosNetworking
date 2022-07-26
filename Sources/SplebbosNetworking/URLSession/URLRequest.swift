@@ -9,6 +9,7 @@ public extension URLRequest {
       request.httpBody = data
     }
     resource.httpHeaderFields?.forEach { request.addValue($0.value, forHTTPHeaderField: $0.key) }
+    request.cachePolicy = resource.cachePolicy
     self = request
   }
 }

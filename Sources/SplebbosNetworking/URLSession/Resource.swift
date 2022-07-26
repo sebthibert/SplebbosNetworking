@@ -7,6 +7,7 @@ public struct Resource {
   public let path: String
   public let percentEncodedQueryItems: [URLQueryItem]?
   public let httpHeaderFields: [String: String]?
+  public let cachePolicy: URLRequest.CachePolicy
 
   public init(
     scheme: String? = "https",
@@ -14,7 +15,8 @@ public struct Resource {
     host: String?,
     path: String = "/",
     percentEncodedQueryItems: [URLQueryItem]? = nil,
-    httpHeaderFields: [String: String]? = [:]
+    httpHeaderFields: [String: String]? = [:],
+    cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy
   ) {
     self.scheme = scheme
     self.httpMethod = httpMethod
@@ -22,6 +24,7 @@ public struct Resource {
     self.path = path
     self.percentEncodedQueryItems = percentEncodedQueryItems
     self.httpHeaderFields = httpHeaderFields
+    self.cachePolicy = cachePolicy
   }
 
   public func url() throws -> URL {
