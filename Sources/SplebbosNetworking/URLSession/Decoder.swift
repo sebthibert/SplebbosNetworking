@@ -1,12 +1,10 @@
 import Foundation
 
 public extension JSONDecoder {
-  static let decoderWith: (KeyDecodingStrategy, String?) -> JSONDecoder = { keyDecodingStrategy, dateFormat in
+  static let decoderWith: (KeyDecodingStrategy, DateDecodingStrategy) -> JSONDecoder = { keyDecodingStrategy, dateDecodingStrategy in
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = keyDecodingStrategy
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = dateFormat
-    decoder.dateDecodingStrategy = .formatted(dateFormatter)
+    decoder.dateDecodingStrategy = dateDecodingStrategy
     return decoder
   }
 }
