@@ -16,7 +16,7 @@ final class DataHandlerTests: XCTestCase {
     do {
       _ = try URLSession.shared.getDataIfNoErrors(output)
     } catch {
-      let dataTaskError = error as? URLSession.Error
+      let dataTaskError = error as? URLSession.URLSessionError
       XCTAssertEqual(dataTaskError?.response, response)
     }
   }
@@ -28,7 +28,7 @@ final class DataHandlerTests: XCTestCase {
       let output = (data: Data(), response: response)
       _ = try URLSession.shared.getDataIfNoErrors(output)
     } catch {
-      let dataTaskError = error as? URLSession.Error
+      let dataTaskError = error as? URLSession.URLSessionError
       XCTAssertEqual(dataTaskError?.statusCode, statusCode)
     }
   }

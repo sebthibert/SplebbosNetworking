@@ -9,6 +9,6 @@ public extension URL {
     components.host = resource.host
     components.path = resource.path
     components.percentEncodedQueryItems = resource.percentEncodedQueryItems
-    self = try unwrap(optional: components.url, orThrow: URLSession.Error.invalidURL)
+    self = try unwrap(optional: components.url, orThrow: URLSession.URLSessionError.invalidURL)
   }
 }

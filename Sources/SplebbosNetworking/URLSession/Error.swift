@@ -1,7 +1,7 @@
 import Foundation
 
 public extension URLSession {
-  enum Error: Swift.Error, Equatable {
+  enum URLSessionError: Error, Equatable {
     case invalidResponse(Data?, Int?, URLResponse?)
     case invalidURL
 

@@ -10,10 +10,10 @@ extension URLSession {
   func getDataIfNoErrors(
     _ data: Data?,
     _ response: URLResponse?,
-    _ error: Swift.Error?
+    _ error: Error?
   ) throws -> Data {
     guard let data = data, error == nil else {
-      throw Error.invalidResponse(data, nil, response)
+      throw URLSessionError.invalidResponse(data, nil, response)
     }
     try handleStatusCode(data, response)
     return data
@@ -24,7 +24,7 @@ extension URLSession {
     let statusCode = httpURLResponse.statusCode
     let isFailedStatusCode = (200..<300).contains(statusCode) == false
     if isFailedStatusCode {
-      throw Error.invalidResponse(data, statusCode, response)
+      throw URLSessionError.invalidResponse(data, statusCode, response)
     }
   }
 }

@@ -1,7 +1,7 @@
 import Foundation
 
 public extension URLSession {
-  func dataTask(for resource: Resource, completionHandler: @escaping (Result<Data, Swift.Error>) -> Void) {
+  func dataTask(for resource: Resource, completionHandler: @escaping (Result<Data, Error>) -> Void) {
     DispatchQueue.main.async {
       do {
         let task = self.dataTask(with: try resource.request()) { data, response, error in

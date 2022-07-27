@@ -4,7 +4,7 @@ public extension URLSession {
   func decodableTask<T: Decodable>(
     for resource: Resource,
     decoder: JSONDecoder = JSONDecoder(),
-    completion: @escaping (Result<T, Swift.Error>) -> Void
+    completion: @escaping (Result<T, Error>) -> Void
   ) {
     dataTask(for: resource) { result in
       DispatchQueue.main.async {

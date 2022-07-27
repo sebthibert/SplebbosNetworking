@@ -35,12 +35,12 @@ final class DataTaskPublisherTests: XCTestCase {
       URLResponse()
     }
     let publisher: AnyPublisher<Data, Error> = session.dataTaskPublisher(for: Resource.stub)
-    var publishedError: URLSession.Error?
+    var publishedError: URLSession.URLSessionError?
     publisher
       .sink(
         receiveCompletion: { completion in
           if case let .failure(error) = completion {
-            publishedError = error as? URLSession.Error
+            publishedError = error as? URLSession.URLSessionError
           }
           expectation.fulfill()
         },
@@ -59,12 +59,12 @@ final class DataTaskPublisherTests: XCTestCase {
       HTTPURLResponse.mock(for: request.url, statusCode: 400)
     }
     let publisher: AnyPublisher<Data, Error> = session.dataTaskPublisher(for: Resource.stub)
-    var publishedError: URLSession.Error?
+    var publishedError: URLSession.URLSessionError?
     publisher
       .sink(
         receiveCompletion: { completion in
           if case let .failure(error) = completion {
-            publishedError = error as? URLSession.Error
+            publishedError = error as? URLSession.URLSessionError
           }
           expectation.fulfill()
         },
@@ -83,12 +83,12 @@ final class DataTaskPublisherTests: XCTestCase {
     }
     let resource = Resource(host: "invalid", path: "invalid")
     let publisher: AnyPublisher<Data, Error> = session.dataTaskPublisher(for: resource)
-    var publishedError: URLSession.Error?
+    var publishedError: URLSession.URLSessionError?
     publisher
       .sink(
         receiveCompletion: { completion in
           if case let .failure(error) = completion {
-            publishedError = error as? URLSession.Error
+            publishedError = error as? URLSession.URLSessionError
           }
           expectation.fulfill()
         },
