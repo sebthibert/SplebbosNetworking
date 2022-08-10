@@ -1,3 +1,3 @@
 # SplebbosNetworking
 
-A description of this package.
+Handles networking with Combine, Async/Await and the traditional closures.
