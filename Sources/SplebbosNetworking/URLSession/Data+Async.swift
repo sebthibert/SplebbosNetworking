@@ -6,4 +6,3 @@ public extension URLSession {
     return try getDataIfNoErrors(data, response, nil)
   }
 }
-

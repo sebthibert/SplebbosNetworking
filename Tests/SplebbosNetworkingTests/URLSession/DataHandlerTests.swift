@@ -5,31 +5,52 @@ import XCTest
 final class DataHandlerTests: XCTestCase {
   func test_getDataIfNoErrors_returnsData_whenNoErrors() throws {
     let response = try XCTUnwrap(HTTPURLResponse(url: try Resource.stub.url(), statusCode: 200, httpVersion: nil, headerFields: nil))
-    let startOutput = (data: Data(), response: response)
-    let endOutput = try URLSession.shared.getDataIfNoErrors(startOutput)
-    XCTAssertEqual(startOutput.data, endOutput)
+    let data = Data()
+    let expectedData = try URLSession.shared.getDataIfNoErrors(data, response, nil)
+    XCTAssertEqual(expectedData, data)
   }
 
-  func test_getDataIfNoErrors_throws_whenResponseIsNotHTTPURLResponse() {
+  func test_getDataIfNoErrors_throws_whenHasNoData() {
     let response = URLResponse()
-    let output = (data: Data(), response: response)
     do {
-      _ = try URLSession.shared.getDataIfNoErrors(output)
+      _ = try URLSession.shared.getDataIfNoErrors(nil, response, nil)
     } catch {
-      let dataTaskError = error as? URLSession.URLSessionError
-      XCTAssertEqual(dataTaskError?.response, response)
+      let dataError = error as? URLSession.URLSessionError
+      XCTAssertEqual(dataError,  URLSession.URLSessionError.invalidResponse(nil, nil, response))
     }
   }
 
-  func test_getDataIfNoErrors_throws_whenStatusCodeIsNotSuccessful() {
-    let statusCode = 400
+  func test_getDataIfNoErrors_throws_whenHasError() {
+    let data = Data()
+    let response = URLResponse()
     do {
-      let response = try XCTUnwrap(HTTPURLResponse(url: try Resource.stub.url(), statusCode: statusCode, httpVersion: nil, headerFields: nil))
-      let output = (data: Data(), response: response)
-      _ = try URLSession.shared.getDataIfNoErrors(output)
+      _ = try URLSession.shared.getDataIfNoErrors(data, response, URLSession.URLSessionError.invalidURL)
+    } catch {
+      let dataError = error as? URLSession.URLSessionError
+      XCTAssertEqual(dataError,  URLSession.URLSessionError.invalidResponse(data, nil, response))
+    }
+  }
+
+  func test_getDataIfNoErrors_throws_whenResponseIsNotHTTPURLResponse() {
+    let data = Data()
+    let response = URLResponse()
+    do {
+      _ = try URLSession.shared.getDataIfNoErrors(data, response, nil)
+    } catch {
+      let dataError = error as? URLSession.URLSessionError
+      XCTAssertEqual(dataError,  URLSession.URLSessionError.invalidResponse(data, nil, response))
+    }
+  }
+
+  func test_getDataIfNoErrors_throws_whenStatusCodeIsNotSuccessful() throws {
+    let data = Data()
+    let statusCode = 400
+    let response = try XCTUnwrap(HTTPURLResponse(url: try Resource.stub.url(), statusCode: statusCode, httpVersion: nil, headerFields: nil))
+    do {
+      _ = try URLSession.shared.getDataIfNoErrors(data, response, nil)
     } catch {
       let dataTaskError = error as? URLSession.URLSessionError
-      XCTAssertEqual(dataTaskError?.statusCode, statusCode)
+      XCTAssertEqual(dataTaskError, URLSession.URLSessionError.invalidResponse(data, statusCode, response))
     }
   }
 }

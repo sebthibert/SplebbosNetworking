@@ -3,6 +3,34 @@ import Combine
 import SplebbosNetworkingMocks
 import XCTest
 
+final class DataAsyncTests: XCTestCase {
+  func test_data_returnsData() async throws {
+    let expectedData = Data("Cheese".utf8)
+    let session = URLSession.mock(data: expectedData) { request in
+      HTTPURLResponse.mock(for: request.url, statusCode: 200)
+    }
+    let data = try await session.data(for: .stub)
+    XCTAssertEqual(data, expectedData)
+  }
+
+  func test_data_throwsError() async throws {
+    let expectedData = Data("Cheese".utf8)
+    let session = URLSession.mock(data: expectedData) { request in
+      HTTPURLResponse.mock(for: request.url, statusCode: 400)
+    }
+    do {
+      _ = try await session.data(for: .stub)
+      XCTFail()
+    } catch {
+      if case let URLSession.URLSessionError.invalidResponse(_, status, _) = error {
+        XCTAssertEqual(status, 400)
+      } else {
+        XCTFail()
+      }
+    }
+  }
+}
+
 final class DataTaskPublisherTests: XCTestCase {
   var cancellables: [AnyCancellable] = []
 
@@ -12,7 +40,7 @@ final class DataTaskPublisherTests: XCTestCase {
     let session = URLSession.mock(data: expectedData) { request in
       HTTPURLResponse.mock(for: request.url, statusCode: 200)
     }
-    let publisher: AnyPublisher<Data, Error> = session.dataTaskPublisher(for: Resource.stub)
+    let publisher: AnyPublisher<Data, Error> = session.dataTaskPublisher(for: .stub)
     var publishedData: Data?
     publisher
       .sink(
@@ -34,7 +62,7 @@ final class DataTaskPublisherTests: XCTestCase {
     let session = URLSession.mock(data: expectedData) { _ in
       URLResponse()
     }
-    let publisher: AnyPublisher<Data, Error> = session.dataTaskPublisher(for: Resource.stub)
+    let publisher: AnyPublisher<Data, Error> = session.dataTaskPublisher(for: .stub)
     var publishedError: URLSession.URLSessionError?
     publisher
       .sink(
@@ -58,7 +86,7 @@ final class DataTaskPublisherTests: XCTestCase {
     let session = URLSession.mock(data: expectedData) { request in
       HTTPURLResponse.mock(for: request.url, statusCode: 400)
     }
-    let publisher: AnyPublisher<Data, Error> = session.dataTaskPublisher(for: Resource.stub)
+    let publisher: AnyPublisher<Data, Error> = session.dataTaskPublisher(for: .stub)
     var publishedError: URLSession.URLSessionError?
     publisher
       .sink(

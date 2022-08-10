@@ -3,6 +3,38 @@ import SplebbosNetworking
 import SplebbosNetworkingMocks
 import XCTest
 
+final class DecodableAsyncTests: XCTestCase {
+  func test_decodable_returnsDecodable() async throws {
+    let expectedDecodable = StubCodable()
+    let expectedData = try JSONEncoder().encode(expectedDecodable)
+    let session = URLSession.mock(data: expectedData) { request in
+      HTTPURLResponse.mock(for: request.url, statusCode: 200)
+    }
+    let decodable: StubCodable = try await session.decodable(for: .stub)
+    XCTAssertEqual(decodable, expectedDecodable)
+  }
+
+  func test_decodable_throwsError() async throws {
+    let expectedDecodable = StubCodable()
+    let expectedData = try JSONEncoder().encode(expectedDecodable)
+    let statusCode = 400
+    let session = URLSession.mock(data: expectedData) { request in
+      HTTPURLResponse.mock(for: request.url, statusCode: statusCode)
+    }
+    do {
+      let _: StubCodable = try await session.decodable(for: .stub)
+      XCTFail()
+    } catch {
+      if case let URLSession.URLSessionError.invalidResponse(data, status, response) = error {
+        XCTAssertEqual(status, 400)
+        XCTAssertEqual(data, expectedData)
+      } else {
+        XCTFail()
+      }
+    }
+  }
+}
+
 final class DecodablePublisherTests: XCTestCase {
   var cancellables: [AnyCancellable] = []
 
@@ -13,7 +45,7 @@ final class DecodablePublisherTests: XCTestCase {
     let session = URLSession.mock(data: expectedData) { request in
       HTTPURLResponse.mock(for: request.url, statusCode: 200)
     }
-    let publisher: AnyPublisher<StubCodable, Error> = session.decodablePublisher(for: Resource.stub)
+    let publisher: AnyPublisher<StubCodable, Error> = session.decodablePublisher(for: .stub)
     var publishedDecodable: StubCodable?
     publisher
       .sink(
@@ -36,7 +68,7 @@ final class DecodablePublisherTests: XCTestCase {
     let session = URLSession.mock(data: expectedData) { request in
       HTTPURLResponse.mock(for: request.url, statusCode: 200)
     }
-    let publisher: AnyPublisher<String, Error> = session.decodablePublisher(for: Resource.stub)
+    let publisher: AnyPublisher<String, Error> = session.decodablePublisher(for: .stub)
     var publishedError: Error?
     publisher
       .sink(

@@ -3,8 +3,7 @@ import Foundation
 
 extension URLSession {
   func getDataIfNoErrors(_ output: DataTaskPublisher.Output) throws -> Data {
-    try handleStatusCode(output.data, output.response)
-    return output.data
+    try getDataIfNoErrors(output.data, output.response, nil)
   }
 
   func getDataIfNoErrors(
